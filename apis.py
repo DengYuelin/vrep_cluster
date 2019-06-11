@@ -64,12 +64,12 @@ for i in range(16):
     errorCode, sensors_0_dist[i] = vrep.simxGetFloatSignal(clientID, 'Sensor_0_{}'.format(i), vrep.simx_opmode_streaming)
 
 #init gps
-car0_pos = [0, 0, 0]
-car1_pos = [0, 0, 0]
-car2_pos = [0, 0, 0]
 errorCode, car0_pos = vrep.simxGetObjectPosition(clientID, car_0, -1, vrep.simx_opmode_streaming)
+errorCode, car0_dir = vrep.simxGetObjectOrientation(clientID, car_0, -1, vrep.simx_opmode_streaming)
 errorCode, car1_pos = vrep.simxGetObjectPosition(clientID, car_1, -1, vrep.simx_opmode_streaming)
+errorCode, car1_dir = vrep.simxGetObjectOrientation(clientID, car_1, -1, vrep.simx_opmode_streaming)
 errorCode, car2_pos = vrep.simxGetObjectPosition(clientID, car_2, -1, vrep.simx_opmode_streaming)
+errorCode, car2_dir = vrep.simxGetObjectOrientation(clientID, car_2, -1, vrep.simx_opmode_streaming)
 
 
 
@@ -80,14 +80,20 @@ braitenbergR = [-1.6, -1.4, -1.2, -1, -0.8, -0.6, -0.4, -0.2, 0.0, 0.0, 0.0, 0.0
 
 while 1:
     for i in range(16):
-        errorCode, sensors_0_dist[i] = vrep.simxGetFloatSignal(clientID, 'Sensor_0_{}'.format(i), vrep.simx_opmode_buffer)
-    #print(sensors_0_dist)
+        errorCode, sensors_0_dist[i] = vrep.simxGetFloatSignal(clientID, 'Sensor_0_{}'.format(i), vrep.simx_opmode_buffer) #读传感器信息
+    # print(sensors_0_dist)
     errorCode, car0_pos = vrep.simxGetObjectPosition(clientID, car_0, -1, vrep.simx_opmode_buffer)
+    errorCode, car0_dir = vrep.simxGetObjectOrientation(clientID, car_0, -1, vrep.simx_opmode_buffer)
     errorCode, car1_pos = vrep.simxGetObjectPosition(clientID, car_1, -1, vrep.simx_opmode_buffer)
+    errorCode, car1_dir = vrep.simxGetObjectOrientation(clientID, car_1, -1, vrep.simx_opmode_buffer)
     errorCode, car2_pos = vrep.simxGetObjectPosition(clientID, car_2, -1, vrep.simx_opmode_buffer)
-    print("Car 0 position:", errorCode, car0_pos)
-    #print("Car 1 position:", errorCode, car1_pos)
-    #print("Car 2 position:", errorCode, car2_pos)
+    errorCode, car2_dir = vrep.simxGetObjectOrientation(clientID, car_2, -1, vrep.simx_opmode_buffer)
+    # print("Car 0 position:", errorCode, car0_pos)
+    print("Car 0 orientation:", errorCode, car0_dir)
+    # print("Car 1 position:", errorCode, car1_pos)
+    print("Car 1 orientation:", errorCode, car1_dir)
+    # print("Car 2 position:", errorCode, car2_pos)
+    print("Car 2 orientation:", errorCode, car2_dir)
     vLeft_0 = v0
     vRight_0 = v0
 
@@ -95,6 +101,6 @@ while 1:
         vLeft_0 = vLeft_0 + braitenbergL[i] * sensors_0_dist[i]
         vRight_0 = vRight_0 + braitenbergR[i] * sensors_0_dist[i]
 
-    errorCode = vrep.simxSetJointTargetVelocity(clientID, left_motor_handle_0, vLeft_0, vrep.simx_opmode_oneshot)
+    errorCode = vrep.simxSetJointTargetVelocity(clientID, left_motor_handle_0, vLeft_0, vrep.simx_opmode_oneshot) #电机速度
     errorCode = vrep.simxSetJointTargetVelocity(clientID, right_motor_handle_0, vRight_0, vrep.simx_opmode_oneshot)
     time.sleep(0.5)
