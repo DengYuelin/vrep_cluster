@@ -89,11 +89,11 @@ while 1:
     errorCode, car2_pos = vrep.simxGetObjectPosition(clientID, car_2, -1, vrep.simx_opmode_buffer)
     errorCode, car2_dir = vrep.simxGetObjectOrientation(clientID, car_2, -1, vrep.simx_opmode_buffer)
     # print("Car 0 position:", errorCode, car0_pos)
-    print("Car 0 orientation:", errorCode, car0_dir)
+    #print("Car 0 orientation:", errorCode, car0_dir)
     # print("Car 1 position:", errorCode, car1_pos)
     print("Car 1 orientation:", errorCode, car1_dir)
     # print("Car 2 position:", errorCode, car2_pos)
-    print("Car 2 orientation:", errorCode, car2_dir)
+    #print("Car 2 orientation:", errorCode, car2_dir)
     vLeft_0 = v0
     vRight_0 = v0
 
